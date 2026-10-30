@@ -1,0 +1,364 @@
+@import 'tailwindcss';
+@import "flowbite/src/themes/default";
+
+@plugin "flowbite/plugin";
+
+@source "../js/**/*.vue";
+@source "../views/**/*.blade.php";
+
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (html.dark &);
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-poppins: "Poppins", sans-serif;
+}
+
+/* login */
+.login-main {
+    @apply flex flex-col items-center justify-center min-h-screen font-poppins md:bg-slate-100 dark:bg-slate-950 transition-colors duration-300;
+}
+
+.login-card {
+    @apply w-full max-w-sm bg-white dark:bg-transparent sm:dark:bg-slate-900 md:shadow-md rounded-xl px-8 pt-8 pb-8 mb-4;
+}
+
+.login-card-footer {
+    @apply text-center text-gray-500 dark:text-slate-300 transition-colors duration-300 text-xs mt-4;
+}
+
+.login-title {
+    @apply text-2xl text-blue-500 dark:text-indigo-500 transition-colors duration-300 font-extrabold;
+}
+
+/* main */
+.main-bg {
+    @apply min-h-screen font-poppins flex flex-col pt-4 sm:pt-14 sm:bg-slate-100 dark:bg-slate-950 transition-colors duration-300;
+}
+
+.main-section {
+    @apply flex flex-col sm:flex-row flex-1 p-2 lg:ml-64 overflow-y-auto;
+}
+
+.main-card {
+    @apply flex-1 md:shadow-md shadow-none rounded-xl m-2 bg-white dark:bg-transparent sm:dark:bg-slate-900 transition-colors duration-300;
+}
+
+.main-card-title {
+    @apply hidden sm:block dark:text-slate-400 transition-colors duration-300;
+}
+
+.main-card-description {
+    @apply mb-2 text-xs text-gray-500 dark:text-slate-400/80 hidden sm:block;
+}
+
+.main-card-date-add-update {
+    @apply mb-2 text-xs text-gray-500 md:text-slate-400/80;
+}
+
+.main-card-close-icon {
+    @apply text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center cursor-pointer;
+}
+
+.main-card-following-section {
+    @apply p-4 mb-4 mt-2 text-fg-brand-strong rounded-xl bg-brand-softer border border-brand-subtle dark:bg-blue-900/10 dark:text-blue-400;
+}
+
+/* navbar */
+.navbar {
+    @apply fixed top-0 z-50 w-full border-b border-default font-poppins shadow-md sm:shadow-none bg-neutral-primary-soft dark:bg-slate-900 transition-colors duration-300;
+}
+
+.navbar-title {
+    @apply self-center text-lg font-semibold whitespace-nowrap text-blue-500 dark:text-indigo-500 transition-colors duration-300;
+}
+
+.navbar-toggle-dark-light-mode {
+    @apply flex text-sm rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer;
+}
+
+.navbar-light-mode-btn {
+    @apply w-8 h-8 py-2 text-amber-400 hover:text-amber-300 border border-amber-500/20 bg-amber-500/10 hover:bg-amber-500/20 rounded-full;
+}
+
+.navbar-dark-mode-btn {
+    @apply w-8 h-8 py-2 text-slate-300 hover:text-slate-100 border border-slate-700/50 bg-slate-800/80 hover:bg-slate-700 rounded-full;
+}
+
+.navbar-user-menu {
+    @apply flex text-sm bg-gray-800 rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer;
+}
+
+.navbar-current-user {
+    @apply text-sm font-medium text-heading dark:text-slate-300;
+}
+
+.navbar-user-menu-dropdown {
+    @apply bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-44;
+}
+
+.navbar-user-menu-dropdown-list {
+    @apply inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded cursor-pointer;
+}
+
+/* sidebar */
+
+.sidebar-content {
+    @apply h-full px-3 py-7 overflow-y-auto border-e border-default bg-neutral-primary-soft dark:bg-slate-900 transition-colors duration-300;
+}
+
+.sidebar-partition-header {
+    @apply px-3 mb-2 text-xs font-light tracking-wider uppercase text-gray-400 dark:text-slate-400 transition-colors duration-300;
+}
+
+.defaultLink {
+    @apply flex items-center px-3 py-2 text-sm rounded-base transition-colors text-gray-500 hover:bg-neutral-tertiary hover:text-blue-500 dark:text-slate-400 dark:hover:text-indigo-500;
+}
+
+.activeLink {
+    @apply flex items-center px-3 py-2 text-sm rounded-base transition-colors text-white font-semibold shadow-md bg-blue-500 hover:bg-blue-400 dark:bg-indigo-600 dark:hover:bg-indigo-500;
+}
+
+.defaultIconLink {
+    @apply w-5 h-5 text-gray-500 group-hover:text-blue-500 dark:text-slate-400 dark:group-hover:text-indigo-500;
+}
+
+.activeIconLink {
+    @apply w-5 h-5 text-white dark:text-slate-200;
+}
+
+/* form */
+.form-control {
+    @apply text-[12px] appearance-none rounded w-full py-2 px-3 mb-0 border border-gray-300 leading-tight focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-slate-800/40 dark:border-slate-700/60 dark:placeholder-slate-400 dark:text-slate-200 dark:focus:bg-slate-800/80 dark:focus:border-indigo-500 dark:focus:ring-1 dark:focus:ring-indigo-500 transition-colors duration-300;
+}
+
+.form-control-error {
+    @apply text-[12px] appearance-none rounded w-full py-2 px-3 mb-0 border border-red-500 leading-tight focus:border-blue-500 focus:ring-1 focus:ring-red-200 text-red-500 focus:outline-none dark:bg-slate-800/40 dark:border-rose-700/60 dark:placeholder-rose-400 dark:text-rose-200 dark:focus:bg-slate-800/80 dark:focus:border-rose-500 dark:focus:ring-1 dark:focus:ring-rose-500 transition-colors duration-300;
+}
+
+.form-control-label {
+    @apply block font-light text-[12px] mb-1 uppercase text-gray-700 dark:text-slate-400 transition-colors duration-300;
+}
+
+.form-control-label-error {
+    @apply block font-light text-[12px] mb-1 uppercase text-red-500 dark:text-rose-400 transition-colors duration-300;
+}
+
+.form-control-error-msg {
+    @apply text-red-500 dark:text-rose-400 text-[11px] italic;
+}
+
+/* data table */
+.data-table-section {
+    @apply relative overflow-x-auto overflow-y-auto md:border-default md:border-t-0 md:border-b-0 md:border-r md:border-l;
+}
+
+.data-table-search-input {
+    @apply w-full md:max-w-80 ps-9 pe-3 py-2 text-[12px] appearance-none border rounded-base px-3 mb-0 border-gray-300 leading-tight focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-slate-800/40 dark:border-slate-700/60 dark:placeholder-slate-400 dark:text-slate-200 dark:focus:bg-slate-800/80 dark:focus:border-indigo-500 dark:focus:ring-1 dark:focus:ring-indigo-500 transition-colors duration-300;
+}
+
+.data-table-normal-input {
+    @apply w-full md:max-w-80 pe-3 py-2 text-[12px] appearance-none border rounded-base px-3 mb-0 border-gray-300 leading-tight focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-slate-800/40 dark:border-slate-700/60 dark:placeholder-slate-400 dark:text-slate-200 dark:focus:bg-slate-800/80 dark:focus:border-indigo-500 dark:focus:ring-1 dark:focus:ring-indigo-500 transition-colors duration-300;
+}
+
+.data-table-search-select {
+    @apply w-full md:max-w-20 pe-3 py-2 text-[12px] appearance-none border rounded-base px-3 mb-0 border-gray-300 leading-tight focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-slate-800/40 dark:border-slate-700/60 dark:placeholder-slate-400 dark:text-slate-200 dark:focus:bg-slate-800/80 dark:focus:border-indigo-500 dark:focus:ring-1 dark:focus:ring-indigo-500 transition-colors duration-300;
+}
+
+.data-table-filter-btn {
+    @apply pe-3 py-2 border rounded-base px-3 border-gray-300 leading-tight dark:bg-slate-800/40 dark:border-slate-700/60 dark:placeholder-slate-400 dark:text-slate-200 transition-colors duration-300;
+}
+
+.data-table-search-input-icon {
+    @apply absolute inset-y-0 flex items-center ps-3 pointer-events-none dark:text-slate-200 transition-colors duration-300;
+}
+
+.data-table-collapse-btn-mobile {
+    @apply w-7 h-5 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none bg-blue-400 dark:bg-indigo-500 transition-colors duration-300;
+}
+
+.data-table-collapse-btn-mobile-active {
+    @apply w-7 h-5 rounded-full flex items-center justify-center text-white shadow-md focus:outline-none bg-blue-500 dark:bg-indigo-600 transition-colors duration-300;
+}
+
+.data-table-header-label-mobile {
+    @apply w-32 md:hidden font-semibold text-gray-500 dark:text-slate-300/80;
+}
+
+.data-table-thead {
+    @apply hidden md:table-header-group text-[12px] font-semibold text-white bg-blue-500 dark:bg-slate-800/60 transition-colors duration-300;
+}
+
+.data-table-tbody-tr {
+    @apply md:bg-neutral-primary-soft border-b border-default dark:border-slate-800 hover:bg-neutral-secondary-soft dark:hover:bg-slate-800/20 block md:table-row rounded-none transition-colors duration-300;
+}
+
+.data-table-no-data-found-msg {
+    @apply h-100 md:h-0 py-40 md:py-2 text-center text-slate-400 md:bg-neutral-primary-soft border-b border-default block md:table-cell transition-colors duration-300;
+}
+
+.data-table-pagination-left-side {
+    @apply flex flex-row items-center gap-2 text-[12px] text-gray-600 dark:text-slate-400 transition-colors duration-300;
+}
+
+.data-table-pagination-select-perpage {
+    @apply text-[12px] w-full py-2 mb-0 border-0 font-semibold text-heading leading-tight focus:ring-0 focus:outline-none dark:bg-transparent transition-colors duration-300;
+}
+
+.data-table-pagination-total {
+    @apply font-semibold text-heading dark:text-slate-400 transition-colors duration-300;
+}
+
+.data-table-pagination-btn-enable {
+    @apply flex items-center justify-center w-10 h-8 text-white font-medium text-xs rounded-lg shadow-md bg-blue-500 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors duration-300 ;
+}
+
+.data-table-pagination-btn-disable {
+    @apply flex items-center justify-center w-10 h-8 bg-gray-100 text-gray-500 font-medium text-xs rounded-lg cursor-not-allowed opacity-60 shadow-xs dark:bg-slate-200 transition-colors duration-300 ;
+}
+
+/* Modal */
+.modal-c {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs;
+}
+
+.modal-c-content {
+    @apply relative bg-neutral-primary-soft dark:bg-slate-900 border border-default rounded-base shadow-sm px-4 py-4 md:px-6;
+}
+
+.modal-c-header {
+    @apply flex items-center justify-between border-b border-gray-100 dark:border-slate-800 pb-2 transition-colors duration-200;
+}
+
+.modal-c-header h1 {
+    @apply font-medium text-[16px] text-heading dark:text-slate-200 transition-colors duration-300;
+}
+
+.modal-c-btn-close {
+    @apply text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center cursor-pointer;
+}
+
+.modal-c-body {
+    @apply space-y-4 md:space-y-6 py-4 text-center text-xs;
+}
+
+.modal-c-body p {
+    @apply leading-relaxed text-body dark:text-slate-300/80;
+}
+
+.modal-c-footer {
+    @apply flex items-center border-t border-gray-100 dark:border-slate-800 space-x-2 pt-2 transition-colors duration-200;
+}
+
+/* buttons */
+.btn-success {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-white bg-green-600 box-border border border-transparent hover:bg-green-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-danger {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-white bg-red-600 box-border border border-transparent hover:bg-red-700 dark:bg-rose-600 dark:hover:bg-rose-700 focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-warning {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-white bg-orange-500 box-border border border-transparent hover:bg-orange-600 dark:bg-amber-500 dark:hover:bg-amber-600 focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-info {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 focus:outline-none dark:bg-indigo-600 dark:hover:bg-indigo-500 transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-secondary {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:outline-none cursor-pointer shadow-xs;
+}
+
+.btn-dark {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-center bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-slate-100 border border-slate-700/50 focus:outline-none cursor-pointer shadow-md;
+}
+
+.btn-disabled {
+    @apply font-medium rounded-base text-[12px] py-2 px-4 text-fg-disabled bg-disabled box-border border border-default-medium shadow-xs leading-5 focus:outline-none disabled:cursor-not-allowed disabled:pointer-events-none;
+}
+
+/* button icon */
+
+.btn-icon-info {
+    @apply p-2 rounded-base text-white mr-2 bg-blue-500 hover:bg-blue-700  dark:bg-indigo-600 dark:hover:bg-indigo-500 focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-icon-danger {
+    @apply p-2 rounded-base text-white mr-2 bg-red-600 hover:bg-red-700 dark:bg-rose-600 dark:hover:bg-rose-700 focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+.btn-icon-secondary {
+    @apply p-2 rounded-base  mr-2 text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:outline-none transition-colors duration-300 cursor-pointer shadow-md;
+}
+
+/* badge */
+.badge-success {
+    @apply px-2.5 py-1 text-2xs rounded-full border bg-emerald-500/10 text-emerald-400 border-emerald-500/20;
+}
+
+.badge-info {
+    @apply px-2.5 py-1 text-2xs rounded-full border bg-sky-500/10 text-sky-400 border-sky-500/20;
+}
+
+.badge-warning {
+    @apply px-2.5 py-1 text-2xs rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/20;
+}
+
+.badge-danger {
+    @apply px-2.5 py-1 text-2xs rounded-full border bg-rose-500/10 text-rose-400 border-rose-500/20;
+}
+
+.badge-alternative {
+    @apply px-2.5 py-1 text-2xs rounded-full border border-default bg-neutral-primary-soft text-heading;
+}
+
+.badge-grey {
+    @apply px-2.5 py-1 text-2xs rounded-full bg-neutral-secondary-medium text-heading;
+}
+
+.badge-default {
+    @apply px-2.5 py-1 text-2xs rounded-full border bg-gray-500/10 text-gray-500 border-gray-500/20;
+}
+
+/* timeline */
+.timeline-success {
+    @apply flex items-center justify-center w-8 h-8 rounded-full text-fg-success-strong bg-success-soft dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 ring-8 ring-buffer dark:ring-slate-950 sm:dark:ring-slate-900 transition-colors duration-300;
+}
+
+.timeline-info {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-brand-softer text-fg-brand-strong dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/20 ring-8 ring-buffer dark:ring-slate-950 sm:dark:ring-slate-900 transition-colors duration-300;
+}
+
+.timeline-danger {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-danger-soft text-fg-danger-strong dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 ring-8 ring-buffer dark:ring-slate-950 sm:dark:ring-slate-900 transition-colors duration-300;
+}
+
+.timeline-warning {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-warning-soft text-fg-warning dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20 ring-8 ring-buffer dark:ring-slate-950 sm:dark:ring-slate-900 transition-colors duration-300;
+}
+
+.timeline-default {
+    @apply flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-950 dark:text-slate-400 ring-8 ring-buffer dark:ring-slate-950 sm:dark:ring-slate-900 transition-colors duration-300;
+}
+
+.timeline-bg {
+    @apply ms-6 rounded-base shadow-xs px-5 py-3 bg-slate-100 hover:bg-slate-50 dark:bg-slate-800/60 dark:hover:bg-slate-800 transition-colors duration-300;
+}
+
+.timeline-title {
+    @apply text-sm dark:text-slate-400 dark:group-hover:text-slate-300 transition-colors duration-300;
+}
+
+.timeline-details {
+    @apply mt-2 md:mt-0 text-xs text-gray-600 dark:text-slate-400/80 dark:group-hover:text-slate-400/90 transition-colors duration-300 italic;
+}
+
+.timeline-datetime {
+    @apply text-2xs font-medium text-gray-600 dark:text-gray-400 px-1.5 py-0.5 transition-colors duration-300;
+}
