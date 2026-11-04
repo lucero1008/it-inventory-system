@@ -12,53 +12,61 @@ const infoMessage = computed(() => page.props.flash?.info);
 </script>
 
 <template>
-    <div v-if="successMessage" class="flex sm:items-center p-4 text-sm text-fg-success-strong rounded-base bg-success-soft mt-15 sm:mt-0" role="alert">
-        <div class="ms-2 text-xs">
-            {{ successMessage }}
+    <Transition name="alert-fade">
+        <div v-if="successMessage" class="flex sm:items-center p-4 text-sm text-fg-success-strong rounded-base bg-success-soft mt-15 sm:mt-0" role="alert">
+            <div class="ms-2 text-xs">
+                {{ successMessage }}
+            </div>
+            <button type="button"
+                    @click="$page.props.flash.success = null"
+                    class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-success-medium hover:bg-success-soft inline-flex items-center justify-center h-8 w-8 cursor-pointer">
+                <span class="sr-only">Close</span>
+                <XMarkIcon class="w-4 h-4"/>
+            </button>
         </div>
-        <button type="button"
-                @click="$page.props.flash.success = null"
-                class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-success-medium hover:bg-success-soft inline-flex items-center justify-center h-8 w-8 cursor-default">
-            <span class="sr-only">Close</span>
-            <XMarkIcon class="w-4 h-4"/>
-        </button>
-    </div>
+    </Transition>
 
-    <div v-if="errorMessage" class="flex sm:items-center p-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft mt-15 sm:mt-0" role="alert">
-        <div class="ms-2 text-xs">
-            {{ successMessage }}
+    <Transition name="alert-fade">
+        <div v-if="errorMessage" class="flex sm:items-center p-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft mt-15 sm:mt-0" role="alert">
+            <div class="ms-2 text-xs">
+                {{ successMessage }}
+            </div>
+            <button type="button"
+                    @click="$page.props.flash.error = null"
+                    class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-danger-medium hover:bg-danger-soft inline-flex items-center justify-center h-8 w-8 cursor-pointer">
+                <span class="sr-only">Close</span>
+                <XMarkIcon class="w-4 h-4"/>
+            </button>
         </div>
-        <button type="button"
-                @click="$page.props.flash.error = null"
-                class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-danger-medium hover:bg-danger-soft inline-flex items-center justify-center h-8 w-8 cursor-default">
-            <span class="sr-only">Close</span>
-            <XMarkIcon class="w-4 h-4"/>
-        </button>
-    </div>
+    </Transition>
 
-    <div v-if="warningMessage" class="flex sm:items-center p-4 mb-4 text-sm text-fg-warning rounded-base bg-warning-soft mt-15 sm:mt-0" role="alert">
-        <div class="ms-2 text-xs">
-            {{ warningMessage }}
+    <Transition name="alert-fade">
+        <div v-if="warningMessage" class="flex sm:items-center p-4 mb-4 text-sm text-fg-warning rounded-base bg-warning-soft mt-15 sm:mt-0" role="alert">
+            <div class="ms-2 text-xs">
+                {{ warningMessage }}
+            </div>
+            <button type="button"
+                    @click="$page.props.flash.warning = null"
+                    class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-warning-medium hover:bg-warning-soft inline-flex items-center justify-center h-8 w-8 cursor-pointer">
+                <span class="sr-only">Close</span>
+                <XMarkIcon class="w-4 h-4"/>
+            </button>
         </div>
-        <button type="button"
-                @click="$page.props.flash.warning = null"
-                class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-warning-medium hover:bg-warning-soft inline-flex items-center justify-center h-8 w-8 cursor-default">
-            <span class="sr-only">Close</span>
-            <XMarkIcon class="w-4 h-4"/>
-        </button>
-    </div>
+    </Transition>
 
-    <div v-if="infoMessage" class="flex sm:items-center p-4 text-sm text-fg-brand-strong rounded-base bg-brand-softer mt-15 sm:mt-0" role="alert">
-        <div class="ms-2 text-xs">
-            {{ infoMessage }}
+    <Transition name="alert-fade">
+        <div v-if="infoMessage" class="flex sm:items-center p-4 text-sm text-fg-brand-strong rounded-base bg-brand-softer mt-15 sm:mt-0" role="alert">
+            <div class="ms-2 text-xs">
+                {{ infoMessage }}
+            </div>
+            <button type="button"
+                    @click="$page.props.flash.infoMessage = null"
+                    class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-brand-medium hover:bg-brand-soft inline-flex items-center justify-center h-8 w-8 cursor-pointer">
+                <span class="sr-only">Close</span>
+                <XMarkIcon class="w-4 h-4"/>
+            </button>
         </div>
-        <button type="button"
-                @click="$page.props.flash.infoMessage = null"
-                class="ms-auto -mx-1.5 -my-1.5 rounded focus:ring-2 focus:ring-brand-medium hover:bg-brand-soft inline-flex items-center justify-center h-8 w-8 cursor-default">
-            <span class="sr-only">Close</span>
-            <XMarkIcon class="w-4 h-4"/>
-        </button>
-    </div>
+    </Transition>
 
     <div :class="[
         (successMessage || errorMessage || warningMessage || infoMessage) ? '' : 'mt-8 md:mt-0'

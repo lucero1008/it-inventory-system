@@ -18,10 +18,6 @@ const props = defineProps({
     returnUrl: {
         type: String,
         default: '/device'
-    },
-    isView: {
-        type: Boolean,
-        default: false
     }
 });
 
@@ -195,7 +191,7 @@ const typeOptions = [
                     <div class="flex justify-between items-center">
                         <div>
                             <h1 class="main-card-title">
-                                {{ isView ? 'View Device Details' : (form.id ? 'Edit Device' : 'Add New Device') }}
+                                {{ form.id ? 'Edit Device' : 'Add New Device' }}
                             </h1>
                             <p class="main-card-description">Track, monitor, and manage all company-issued desktop and laptop hardware assets here.</p>
                         </div>
@@ -213,7 +209,6 @@ const typeOptions = [
                                 placeholder="Enter asset tag"
                                 v-model="form.asset_tag"
                                 :error="form.errors.asset_tag"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -224,7 +219,6 @@ const typeOptions = [
                                 :options="typeOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.device_type"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -235,7 +229,6 @@ const typeOptions = [
                                 :options="brandOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.brand"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -244,7 +237,6 @@ const typeOptions = [
                                 placeholder="Enter model"
                                 v-model="form.model"
                                 :error="form.errors.model"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -253,7 +245,6 @@ const typeOptions = [
                                 placeholder="Enter serial number"
                                 v-model="form.serial_number"
                                 :error="form.errors.serial_number"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -262,7 +253,6 @@ const typeOptions = [
                                 placeholder="Enter processor"
                                 v-model="form.processor"
                                 :error="form.errors.processor"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -273,7 +263,6 @@ const typeOptions = [
                                 :options="ramOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.ram"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -284,7 +273,6 @@ const typeOptions = [
                                 :options="storageOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.storage"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -293,7 +281,6 @@ const typeOptions = [
                                 placeholder="Enter current user"
                                 v-model="form.current_user"
                                 :error="form.errors.current_user"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -302,7 +289,6 @@ const typeOptions = [
                                 placeholder="Enter department"
                                 v-model="form.department"
                                 :error="form.errors.department"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -313,7 +299,6 @@ const typeOptions = [
                                 :options="statusOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.status"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -322,7 +307,6 @@ const typeOptions = [
                                 type="date"
                                 v-model="form.date_of_asset_transfer"
                                 :error="form.errors.date_of_asset_transfer"
-                                :disabled="isView"
                             />
                         </div>
 
@@ -333,7 +317,6 @@ const typeOptions = [
                             placeholder="Add remark here..."
                             v-model="form.remarks"
                             :error="form.errors.remarks"
-                            :disabled="isView"
                             class="mt-4"
                         />
 
@@ -344,13 +327,12 @@ const typeOptions = [
 
                         <div class="mt-4 mb-4 grid grid-cols-1 gap-3 md:flex md:justify-end md:col-span-2 md:justify-self-end">
                             <button
-                                v-if="!isView"
                                 @click="handleSaveClick"
                                 type="button"
                                 class="btn-info w-auto md:w-40 ">
                                 {{ form.id ? 'Update' : 'Save' }}
                             </button>
-                            <button v-if="!isView" type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
+                            <button type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
                             <Link :href="returnUrl" class="w-full btn-dark block sm:hidden">
                                 Close
                             </Link>

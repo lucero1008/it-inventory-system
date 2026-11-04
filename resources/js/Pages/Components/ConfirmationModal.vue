@@ -36,37 +36,39 @@ const confirmButtonClass = computed(() => {
 });
 </script>
 <template>
-    <div v-if="show" class="modal-c">
-        <div class="relative p-4 w-full max-w-100 max-h-full">
-            <!-- Modal content -->
-            <div class="modal-c-content">
-                <!-- Modal header -->
-                <div class="modal-c-header">
-                    <h1>{{ title }}</h1>
-                    <button type="button" @click="$emit('close')" class="modal-c-btn-close">
-                        <XMarkIcon class="w-5 h-5"/>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-c-body">
-                    <p><slot></slot></p>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-c-footer">
-                    <button type="button"
-                            @click="$emit('confirm')"
-                            :class="confirmButtonClass"
-                            >
-                            {{ confirmText }}
-                    </button>
-                    <button type="button"
-                            @click="$emit('close')"
-                            class="w-full btn-secondary">
-                            No, Cancel
-                    </button>
+  <Transition name="modal-fade">
+        <div v-if="show" class="modal-c">
+            <div class="relative p-4 w-full max-w-100 max-h-full">
+                <!-- Modal content -->
+                <div class="modal-c-content">
+                    <!-- Modal header -->
+                    <div class="modal-c-header">
+                        <h1>{{ title }}</h1>
+                        <button type="button" @click="$emit('close')" class="modal-c-btn-close">
+                            <XMarkIcon class="w-5 h-5"/>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-c-body">
+                        <p><slot></slot></p>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-c-footer">
+                        <button type="button"
+                                @click="$emit('confirm')"
+                                :class="confirmButtonClass"
+                                >
+                                {{ confirmText }}
+                        </button>
+                        <button type="button"
+                                @click="$emit('close')"
+                                class="w-full btn-secondary">
+                                No, Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </Transition>
 </template>

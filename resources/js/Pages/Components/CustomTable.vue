@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { ChevronDownIcon, ChevronUpIcon, ChevronUpDownIcon, MagnifyingGlassIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
+import { ChevronDownIcon, ChevronUpIcon, ChevronUpDownIcon, MagnifyingGlassIcon, ExclamationTriangleIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 import { Link } from '@inertiajs/vue3';
 
 defineProps({
@@ -27,6 +27,18 @@ defineProps({
   isSelectHidden: {
     type: Boolean,
     default: false,
+  },
+  isAddBtnHidden: {
+    type: Boolean,
+    default: false
+  },
+  isActionHidden: {
+    type: Boolean,
+    default: false
+  },
+  alternativeTitle: {
+    type: String,
+    default: ''
   }
 });
 
@@ -48,10 +60,12 @@ const activeRowIndex = ref(0);
 const toggleRow = (index) => {
     activeRowIndex.value = activeRowIndex.value === index ? null : index;
 };
+
+
 </script>
 <template>
     <div class="py-5 flex flex-col md:flex-row-reverse justify-between items-center gap-2 md:gap-0">
-            <button type="button" @click="handleAddNew" class="w-full md:max-w-30 btn-info">
+            <button type="button" @click="handleAddNew" class="w-full md:max-w-30 btn-info" :hidden="isAddBtnHidden">
                 Add New
             </button>
 
@@ -70,6 +84,10 @@ const toggleRow = (index) => {
                         </option>
                     </select>
                 </div>
+            </div>
+
+            <div :hidden="!isAddBtnHidden" class="data-table-alternative-title hidden md:block">
+                {{ alternativeTitle }}
             </div>
     </div>
 
@@ -92,7 +110,7 @@ const toggleRow = (index) => {
                             </button>
                         </div>
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" :hidden="isActionHidden">
                         Action
                     </th>
                 </tr>
@@ -133,17 +151,22 @@ const toggleRow = (index) => {
                         </template>
 
                         <td :class="activeRowIndex === rowIndex ? 'flex flex-1 items-center ml-13 md:ml-0' : 'hidden md:table-cell'"
-                            class="px-0 md:px-6 py-2">
+                            class="px-0 md:px-6 py-2" :hidden="isActionHidden">
                             <span class="data-table-header-label-mobile">Action</span>
                             <slot name="actions" :item="item"></slot>
                         </td>
                     </tr>
 
                     <tr v-if="items.length === 0" class="block md:table-row">
-                        <td :colspan="headers.length + 1"
-                            class="data-table-no-data-found-msg">
-                            No data found!
+                        <td :colspan="headers.length + 1" >
+                            <div class="data-table-no-data-found-msg">
+                                <div><ExclamationTriangleIcon class="w-7 h-7"/></div>
+                                <h3>No data found</h3>
+                                <p>Your search did not match any data. Try checking your spelling or clearing filters.</p>
+                            </div>
                         </td>
+
+
                     </tr>
                 </tbody>
         </table>

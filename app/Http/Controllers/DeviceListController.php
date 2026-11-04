@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Logs;
 use App\Models\Device;
+use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class DeviceListController extends Controller
         $data = Device::when($search, function ($query, $search) {
             $query->where('asset_tag', 'like', "%{$search}%")
                   ->orWhere('serial_number', 'like', "%{$search}%")
-                  ->orWhere('current_device', 'like', "%{$search}%");
+                  ->orWhere('current_user', 'like', "%{$search}%");
         })
         ->when($select, function ($query, $select) {
             $query->where('status', $select);
@@ -42,19 +43,52 @@ class DeviceListController extends Controller
         return Inertia::render('Inventory/Device', [
             'device' => $data,
             'pageTitle' => 'Desktop & Laptop',
-            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
+            'filters' => $request->only(['search', 'perPage', 'select', 'sort', 'direction']),
         ]);
     }
 
     public function action($id = null) {
-
-        $isView = request()->routeIs('device.view');
         $deviceData = $id ? Device::find($id) : null;
 
         return Inertia::render('Action/ActionDevice', [
             'selectedDevice' => $deviceData,
-            'isView' => $isView,
-            'pageTitle' => $isView ? 'View Device Details' : ($id ? 'Edit Device' : 'Add Device'),
+            'pageTitle' => $id ? 'Edit Device' : 'Add Device',
+            'returnUrl' => session('device_index_url', route('device.index')),
+        ]);
+    }
+
+    public function view(Request $request, $id) {
+
+        $deviceData = Device::findOrFail($id);
+
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10);
+
+        $sort = in_array($request->input('sort'), ['id', 'created_at', 'user_id'])
+                ? $request->input('sort')
+                : 'id';
+
+        $direction = $request->input('direction', 'desc');
+
+        $histories = $deviceData->histories()
+                    ->when($search, function ($query, $search) {
+                        $query->where('id', 'like', "%{$search}%")
+                              ->orWhere('details', 'like', "%{$search}%")
+                              ->orWhereHas('user', function($userQuery) use ($search) {
+                                    $userQuery->where('name', 'like', "%{$search}%")
+                                              ->orWhere('username', 'like', "%{$search}%");
+                              });
+                    })
+                    ->with('user')
+                    ->orderBy($sort, $direction)
+                    ->paginate($perPage)
+                    ->withQueryString();
+
+        return Inertia::render('View/ViewDevice', [
+            'viewDevice' => $deviceData,
+            'assetLogs' => $histories,
+            'pageTitle' => 'View Device',
+            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
             'returnUrl' => session('device_index_url', route('device.index')),
         ]);
     }

@@ -1,7 +1,7 @@
 <script setup>
 import dayjs from 'dayjs';
-import { ref } from 'vue';
-import { MagnifyingGlassIcon, PencilIcon, TrashIcon, PlusIcon, UserIcon, ExclamationTriangleIcon, ChevronLeftIcon, ChevronRightIcon, FunnelIcon } from '@heroicons/vue/24/solid'
+import { ref, watch, computed } from 'vue';
+import { MagnifyingGlassIcon, PencilIcon, TrashIcon, PlusIcon, UserIcon, ExclamationTriangleIcon, ChevronLeftIcon, ChevronRightIcon, FunnelIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { Link } from '@inertiajs/vue3';
 
 const date = ref();
@@ -24,6 +24,8 @@ defineProps({
 const search = defineModel('search');
 const perPage = defineModel('perPage');
 const selectAction = defineModel('selectAction');
+const dateStart = defineModel('dateStart');
+const dateEnd = defineModel('dateEnd');
 
 
 const getTimelineClasses = (action) => {
@@ -60,7 +62,16 @@ const getTimelineIcon = (action) => {
     }
 }
 
-const showFilters = ref(false);
+// const savedFilterState = localStorage.getItem('showFilters');
+// const showFilters = ref(savedFilterState ? JSON.parse(savedFilterState) : false);
+
+// watch(showFilters, (newValue) => {
+//   localStorage.setItem('showFilters', JSON.stringify(newValue));
+// });
+
+// const currentFilterIcon = computed(() => {
+//   return showFilters.value ? XMarkIcon : FunnelIcon;
+// });
 </script>
 <template>
         <div class="py-5 flex flex-col md:flex-row-reverse justify-between items-center gap-2 md:gap-0">
@@ -83,40 +94,43 @@ const showFilters = ref(false);
                         </option>
                     </select>
 
-                    <button @click="showFilters = !showFilters" type="button" class="data-table-filter-btn">
-                        <FunnelIcon class="w-3 h-3"/>
-                    </button>
+                    <!-- <button @click="showFilters = !showFilters" class="data-table-filter-btn">
+                        <component :is="currentFilterIcon" class="w-3 h-3"/>
+                    </button> -->
+
                 </div>
                 <div>
 
                 </div>
             </div>
         </div>
-<!-- v-if="showFilters"  -->
-            <div class="border border-gray-200 shadow-md rounded-base p-5 flex flex-col sm:flex-row justify-between item-center gap-0 md:gap-4 mb-5">
+        <!-- <Transition name="date-range-fade">
+            <div v-if="showFilters" class="border-b border-gray-200 pb-5 flex flex-col sm:flex-row justify-between item-center gap-0 md:gap-4 mb-5">
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="...">
-                        <input type="date" class="data-table-normal-input">
+                    <div>
+                        <label class="data-table-label-input">Start</label>
+                        <input type="date" class="data-table-normal-input" v-model="dateStart">
                     </div>
-                    <div class="...">
-                        <input type="date" class="data-table-normal-input">
+                    <div class="mb-3 sm:mb-0">
+                        <label class="data-table-label-input">End</label>
+                        <input type="date" class="data-table-normal-input" v-model="dateEnd">
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-2">
-                    <div class="...">
+                    <div>
                         <button type="button" class="w-full md:max-w-30 btn-info">
                             Apply
                         </button>
                     </div>
-                    <div class="...">
+                    <div>
                         <button type="button" class="w-full md:max-w-30 btn-secondary">
                             Reset
                         </button>
                     </div>
                 </div>
             </div>
-
+        </Transition> -->
         <div class="ml-2">
             <ol class="relative border-s border-default mb-3" v-for="(item, rowIndex) in items" :key="rowIndex">
                 <li class="timeline-bg group">
@@ -130,12 +144,13 @@ const showFilters = ref(false);
                     <p class="timeline-details">{{ item['details'] }}</p>
                 </li>
             </ol>
-
-            <div v-if="items.length === 0">
-                <p class="mt-2 text-xs">No Logs Found</p>
-            </div>
         </div>
 
+        <div v-if="items.length === 0" class="timeline-no-logs">
+                <div><ExclamationTriangleIcon class="w-7 h-7"/></div>
+                <h3>No logs found</h3>
+                <p>Your search did not match any activity logs. Try checking your spelling or clearing filters.</p>
+        </div>
 
         <div class="flex items-center flex-column flex-wrap md:flex-row justify-between py-4">
         <div class="data-table-pagination-left-side">
