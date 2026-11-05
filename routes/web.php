@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceListController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MonitorListController;
+use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\PrinterListController;
 use App\Http\Controllers\UserController;
 
@@ -47,6 +48,16 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::put('/printer/update/{printer}', [PrinterListController::class, 'update'])->name('printer.update');
     Route::delete('/printer/delete/{id}', [PrinterListController::class, 'destroy'])->name('printer.delete');
     // Printer Routing End
+
+    // IP Phone Routing Start
+    Route::get('/phone', [PhoneController::class, 'showPhone'])->name('phone.index');
+    Route::get('/phone/action', [PhoneController::class, 'action'])->name('phone.add');
+    Route::get('/phone/action/{id}', [PhoneController::class, 'action'])->name('phone.edit');
+    Route::get('/phone/view/{id}', [PhoneController::class, 'view'])->name('phone.view');
+    Route::post('/phone/store', [PhoneController::class, 'store'])->name('phone.store');
+    Route::put('/phone/update/{phone}', [PhoneController::class, 'update'])->name('phone.update');
+    Route::delete('/phone/delete/{id}', [PhoneController::class, 'destroy'])->name('phone.delete');
+    // IP Phone Routing End
 });
 
 Route::middleware(['auth', 'prevent-back-history', 'admin'])->group(function () {

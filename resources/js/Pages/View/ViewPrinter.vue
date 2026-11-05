@@ -20,7 +20,7 @@ const props = defineProps({
     },
     returnUrl: {
         type: String,
-        default: '/device'
+        default: '/printer'
     },
     filters: Object,
 });

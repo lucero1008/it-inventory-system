@@ -27,6 +27,10 @@ class Printer extends Model
         'date_of_asset_transfer',
     ];
 
+    public static function statuses() {
+        return ['Available', 'In Use', 'For Repair', 'For Disposal', 'Disposed', 'For Testing', 'Undefined'];
+    }
+
     public function histories(): MorphMany
     {
         return $this->morphMany(History::class, 'asset');

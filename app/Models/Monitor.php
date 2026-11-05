@@ -26,7 +26,7 @@ class Monitor extends Model
     ];
 
     public static function statuses() {
-        return ['Available', 'In Use', 'For Repair', 'For Disposal', 'Disposed', 'For Testing', 'Undefined'];
+        return ['Available', 'In Use', 'For Disposal', 'Disposed', 'For Testing', 'Undefined'];
     }
 
     public function histories(): MorphMany

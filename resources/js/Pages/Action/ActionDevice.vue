@@ -122,6 +122,7 @@ const handleSaveClick = () => {
 };
 
 const ramOptions = [
+    'No RAM',
     '512MB DDR1',
     '1GB DDR1',
     '1GB DDR2',

@@ -16,6 +16,7 @@ const getStatusClass = (status) => {
         case 'in use':
             return 'badge-info';
         case 'for repair':
+        case 'defective':
             return 'badge-warning';
         case 'for disposal':
         case 'disposed':

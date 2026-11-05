@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Device;
 use App\Models\Monitor;
+use App\Models\Phone;
 use App\Models\Printer;
 use App\Models\User;
 use App\Observers\DeviceObserver;
 use App\Observers\MonitorObserver;
+use App\Observers\PhoneObserver;
 use App\Observers\PrinterObserver;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\UserObserver;
@@ -31,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Device::observe(DeviceObserver::class);
         Monitor::observe(MonitorObserver::class);
         Printer::observe(PrinterObserver::class);
+        Phone::observe(PhoneObserver::class);
     }
 }

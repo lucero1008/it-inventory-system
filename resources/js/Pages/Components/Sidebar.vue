@@ -46,7 +46,7 @@ const sidebarSection = [
     links: [
       { name: 'Switch & Router', href: '#', component: 'NetworkDevice', icon: CircleStackIcon, show: true },
       { name: 'Access Phone', href: '#', component: 'AccessPoint', icon: WifiIcon, show: true },
-      { name: 'IP Phone', href: '#', component: 'NetworkPhone', icon: PhoneIcon, show: true },
+      { name: 'IP Phone', href: '/phone', component: 'Phone', icon: PhoneIcon, show: true },
     ]
   },
   {

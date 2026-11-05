@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Printer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class PrinterListController extends Controller
 {
@@ -121,6 +122,11 @@ class PrinterListController extends Controller
     public function update(Request $request, Printer $printer) {
         $redirectUrl = session('printer_index_url', route('printer.index'));
 
+        $currentUser = $request->input('current_user');
+        if (!empty($currentUser) && $currentUser !== 'IT') {
+            $request->merge(['status' => 'In Use']);
+        }
+
         $validated = $request->validate([
             'asset_tag' => ['nullable', 'string', 'max:255', 'unique:printer,asset_tag,' . $printer->id],
             'brand' => ['required', 'string', 'max:255'],
@@ -132,7 +138,7 @@ class PrinterListController extends Controller
             'current_user' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'remarks' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'string'],
+            'status' => ['required', 'string', Rule::in(Printer::statuses())],
             'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
         ]);
 
