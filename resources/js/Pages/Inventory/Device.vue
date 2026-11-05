@@ -120,9 +120,7 @@ const statusOptions = [
                     <h1 class="main-card-title">Desktop & Laptop List</h1>
                     <p class="main-card-description">Track, monitor, and manage all company-issued desktop and laptop hardware assets here.</p>
 
-                    <div class="mt-15 sm:mt-0">
-                        <FlashAlert/>
-                    </div>
+                    <FlashAlert/>
                     <CustomTable
                         :headers="tableHeaders"
                         :items="device.data"

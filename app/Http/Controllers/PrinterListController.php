@@ -140,7 +140,13 @@ class PrinterListController extends Controller
         $validated['department'] = $request->filled('department') ? $request->department : 'IT';
 
         $printer->update($validated);
-        return redirect($redirectUrl)->with('success', 'Printer successfully updated.');
+
+        $hasChanges = $printer->wasChanged(['asset_tag', 'device_type', 'brand', 'model', 'serial_number', 'printer_type', 'supplier', 'ownership', 'current_user', 'department', 'remarks', 'status', 'date_of_asset_transfer']);
+
+        $msgType = $hasChanges ? 'success' : 'warning';
+        $msgContent = $hasChanges ? 'Printer details updated successfully.' : 'No changes were made to the printer details.';
+
+        return redirect($redirectUrl)->with($msgType, $msgContent);
     }
 
     public function destroy($id) {

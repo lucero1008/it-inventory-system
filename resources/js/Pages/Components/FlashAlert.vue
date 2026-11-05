@@ -41,7 +41,7 @@ const infoMessage = computed(() => page.props.flash?.info);
     </Transition>
 
     <Transition name="alert-fade">
-        <div v-if="warningMessage" class="flex sm:items-center p-4 mb-4 text-sm text-fg-warning rounded-base bg-warning-soft mt-15 sm:mt-0" role="alert">
+        <div v-if="warningMessage" class="flex sm:items-center p-4 text-sm text-fg-warning rounded-base bg-warning-soft mt-15 sm:mt-0" role="alert">
             <div class="ms-2 text-xs">
                 {{ warningMessage }}
             </div>

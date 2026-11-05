@@ -150,7 +150,12 @@ class MonitorListController extends Controller
 
         $monitor->update($validated);
 
-        return redirect($redirectUrl)->with('success', 'Monitor details updated successfully.');
+        $hasChanges = $monitor->wasChanged(['asset_tag', 'device_type', 'brand', 'model', 'serial_number', 'size', 'current_user', 'department', 'remarks', 'status', 'date_of_asset_transfer']);
+
+        $msgType = $hasChanges ? 'success' : 'warning';
+        $msgContent = $hasChanges ? 'Monitor details updated successfully.' : 'No changes were made to the monitor details.';
+
+        return redirect($redirectUrl)->with($msgType, $msgContent);
     }
 
     public function destroy($id) {

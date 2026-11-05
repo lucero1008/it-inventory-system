@@ -120,9 +120,7 @@ const statusOptions = [
                     <h1 class="main-card-title">Printer List</h1>
                     <p class="main-card-description">Track, monitor, and manage all supplier or company-issued printer assets here.</p>
 
-                    <div class="mt-15 sm:mt-0">
-                        <FlashAlert/>
-                    </div>
+                    <FlashAlert/>
                     <CustomTable
                         :headers="tableHeaders"
                         :items="printer.data"

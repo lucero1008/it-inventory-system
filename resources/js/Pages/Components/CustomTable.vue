@@ -92,7 +92,7 @@ const toggleRow = (index) => {
     </div>
 
     <div class="data-table-section rounded-sm md:border md:border-default">
-        <table class="w-full text-sm text-left rtl:text-right text-body">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-slate-400">
             <thead class="data-table-thead">
                 <tr>
                     <th v-for="(header, index) in headers"
@@ -103,7 +103,7 @@ const toggleRow = (index) => {
                             header.key === 'id' ? 'md:px-2 ' : 'px-6'
                         ]"
                     >
-                        <div class="flex items-center dark:text-slate-100">
+                        <div class="flex items-center">
                         {{ header.label }}
                             <button v-if="header.enabaleSort" class="cursor-pointer hover:text-gray-900" @click="handleSort(header.key)">
                                 <ChevronUpDownIcon class="w-4 h-4 ms-1" />
