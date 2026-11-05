@@ -42,7 +42,7 @@ class UserController extends Controller
         return Inertia::render('Users', [
             'users' => $users,
             'pageTitle' => 'Users',
-            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
+            'filters' => $request->only(['search', 'perPage', 'select', 'sort', 'direction']),
         ]);
     }
 

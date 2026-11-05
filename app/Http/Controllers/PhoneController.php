@@ -44,7 +44,7 @@ class PhoneController extends Controller
         return Inertia::render('Inventory/Phone', [
             'phone' => $data,
             'pageTitle' => 'Phone',
-            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
+            'filters' => $request->only(['search', 'perPage', 'select', 'sort', 'direction']),
         ]);
     }
 

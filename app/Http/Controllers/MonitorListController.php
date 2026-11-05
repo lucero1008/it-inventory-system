@@ -44,7 +44,7 @@ class MonitorListController extends Controller
         return Inertia::render('Inventory/Monitor', [
             'monitor' => $data,
             'pageTitle' => 'Monitor',
-            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
+            'filters' => $request->only(['search', 'perPage', 'select', 'sort', 'direction']),
         ]);
     }
 

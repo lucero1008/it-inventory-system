@@ -44,7 +44,7 @@ class PrinterListController extends Controller
         return Inertia::render('Inventory/Printer', [
             'printer' => $data,
             'pageTitle' => 'Printer',
-            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
+            'filters' => $request->only(['search', 'perPage', 'select', 'sort', 'direction']),
         ]);
     }
 
