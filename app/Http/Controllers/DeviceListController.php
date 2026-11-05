@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Logs;
 use App\Models\Device;
-use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +28,8 @@ class DeviceListController extends Controller
 
         $data = Device::when($search, function ($query, $search) {
             $query->where('asset_tag', 'like', "%{$search}%")
+                  ->orWhere('brand', 'like', "%{$search}%")
+                  ->orWhere('model', 'like', "%{$search}%")
                   ->orWhere('serial_number', 'like', "%{$search}%")
                   ->orWhere('current_user', 'like', "%{$search}%");
         })

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Monitor extends Model
 {
@@ -26,5 +27,10 @@ class Monitor extends Model
 
     public static function statuses() {
         return ['Available', 'In Use', 'For Repair', 'For Disposal', 'Disposed', 'For Testing', 'Undefined'];
+    }
+
+    public function histories(): MorphMany
+    {
+        return $this->morphMany(History::class, 'asset');
     }
 }

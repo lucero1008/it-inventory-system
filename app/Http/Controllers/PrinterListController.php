@@ -48,14 +48,46 @@ class PrinterListController extends Controller
     }
 
     public function action($id = null) {
-        $isView = request()->routeIs('printer.view');
-
         $printerData = $id ? Printer::find($id) : null;
 
         return Inertia::render('Action/ActionPrinter', [
             'selectedPrinter' => $printerData,
-            'isView' => $isView,
-            'pageTitle' => $isView ? 'View Printer Details' : ($id ? 'Edit Printer' : 'Add Printer'),
+            'pageTitle' => $id ? 'Edit Printer' : 'Add Printer',
+            'returnUrl' => session('printer_index_url', route('printer.index')),
+        ]);
+    }
+
+    public function view(Request $request, $id) {
+        $printerData = Printer::findOrFail($id);
+
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10);
+
+        $sort = in_array($request->input('sort'), ['id', 'created_at', 'user_id'])
+                ? $request->input('sort')
+                : 'id';
+
+        $direction = $request->input('direction', 'desc');
+
+        $histories = $printerData->histories()
+                    ->when($search, function ($query, $search) {
+                        $query->where('id', 'like', "%{$search}%")
+                              ->orWhere('details', 'like', "%{$search}%")
+                              ->orWhereHas('user', function($userQuery) use ($search) {
+                                    $userQuery->where('name', 'like', "%{$search}%")
+                                              ->orWhere('username', 'like', "%{$search}%");
+                              });
+                    })
+                    ->with('user')
+                    ->orderBy($sort, $direction)
+                    ->paginate($perPage)
+                    ->withQueryString();
+
+        return Inertia::render('View/ViewPrinter', [
+            'viewPrinter' => $printerData,
+            'assetLogs' => $histories,
+            'pageTitle' => 'View Printer',
+            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
             'returnUrl' => session('printer_index_url', route('printer.index')),
         ]);
     }

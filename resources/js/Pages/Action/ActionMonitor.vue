@@ -18,10 +18,6 @@ const props = defineProps({
     returnUrl: {
         type: String,
         default: '/monitor'
-    },
-    isView: {
-        type: Boolean,
-        default: false
     }
 });
 
@@ -173,7 +169,7 @@ const sizeOptions = [
                     <div class="flex justify-between items-center">
                         <div>
                             <h1 class="main-card-title">
-                                {{ isView ? 'View Monitor Details' : (form.id ? 'Edit Monitor' : 'Add New Monitor') }}
+                                {{ form.id ? 'Edit Monitor' : 'Add New Monitor' }}
                             </h1>
                             <p class="main-card-description">Track, monitor, and manage all company-issued monitor hardware assets here.</p>
                         </div>
@@ -190,7 +186,6 @@ const sizeOptions = [
                                 placeholder="Enter asset tag"
                                 v-model="form.asset_tag"
                                 :error="form.errors.asset_tag"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -201,7 +196,6 @@ const sizeOptions = [
                                 :options="brandOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.brand"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -210,7 +204,6 @@ const sizeOptions = [
                                 placeholder="Enter model"
                                 v-model="form.model"
                                 :error="form.errors.model"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -219,7 +212,6 @@ const sizeOptions = [
                                 placeholder="Enter serial number"
                                 v-model="form.serial_number"
                                 :error="form.errors.serial_number"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -230,7 +222,6 @@ const sizeOptions = [
                                 :options="sizeOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.size"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -239,7 +230,6 @@ const sizeOptions = [
                                 placeholder="Enter current user"
                                 v-model="form.current_user"
                                 :error="form.errors.current_user"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -248,7 +238,6 @@ const sizeOptions = [
                                 placeholder="Enter department"
                                 v-model="form.department"
                                 :error="form.errors.department"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -259,7 +248,6 @@ const sizeOptions = [
                                 :options="statusOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.status"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -268,7 +256,6 @@ const sizeOptions = [
                                 type="date"
                                 v-model="form.date_of_asset_transfer"
                                 :error="form.errors.date_of_asset_transfer"
-                                :disabled="isView"
                             />
                         </div>
                         <FormTextArea
@@ -278,7 +265,6 @@ const sizeOptions = [
                             placeholder="Add remark here..."
                             v-model="form.remarks"
                             :error="form.errors.remarks"
-                            :disabled="isView"
                             class="mt-4"
                         />
 
@@ -289,13 +275,12 @@ const sizeOptions = [
 
                         <div class="mt-4 mb-4 grid grid-cols-1 gap-3 md:flex md:justify-end md:col-span-2 md:justify-self-end">
                             <button
-                                v-if="!isView"
                                 @click="handleSaveClick"
                                 type="button"
                                 class="btn-info w-auto md:w-40 ">
                                 {{ form.id ? 'Update' : 'Save' }}
                             </button>
-                            <button v-if="!isView" type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
+                            <button type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
                             <Link :href="returnUrl" class="w-full btn-dark block sm:hidden">
                                 Close
                             </Link>

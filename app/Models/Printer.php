@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Printer extends Model
 {
@@ -25,4 +26,9 @@ class Printer extends Model
         'remarks',
         'date_of_asset_transfer',
     ];
+
+    public function histories(): MorphMany
+    {
+        return $this->morphMany(History::class, 'asset');
+    }
 }

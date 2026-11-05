@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Logs;
 use Inertia\Inertia;
 use App\Models\Monitor;
 use Illuminate\Http\Request;
@@ -50,14 +49,46 @@ class MonitorListController extends Controller
     }
 
     public function action($id = null) {
-
-        $isView = request()->routeIs('monitor.view');
         $monitorData = $id ? Monitor::find($id) : null;
 
         return Inertia::render('Action/ActionMonitor', [
             'selectedMonitor' => $monitorData,
-            'isView' => $isView,
-            'pageTitle' => $isView ? 'View Monitor Details' : ($id ? 'Edit Monitor' : 'Add Monitor'),
+            'pageTitle' => $id ? 'Edit Monitor' : 'Add Monitor',
+            'returnUrl' => session('monitor_index_url', route('monitor.index')),
+        ]);
+    }
+
+    public function view(Request $request, $id) {
+        $monitorData = Monitor::findOrFail($id);
+
+        $search = $request->input('search');
+        $perPage = $request->input('perPage', 10);
+
+        $sort = in_array($request->input('sort'), ['id', 'created_at', 'user_id'])
+                ? $request->input('sort')
+                : 'id';
+
+        $direction = $request->input('direction', 'desc');
+
+        $histories = $monitorData->histories()
+                    ->when($search, function ($query, $search) {
+                        $query->where('id', 'like', "%{$search}%")
+                              ->orWhere('details', 'like', "%{$search}%")
+                              ->orWhereHas('user', function($userQuery) use ($search) {
+                                    $userQuery->where('name', 'like', "%{$search}%")
+                                              ->orWhere('username', 'like', "%{$search}%");
+                              });
+                    })
+                    ->with('user')
+                    ->orderBy($sort, $direction)
+                    ->paginate($perPage)
+                    ->withQueryString();
+
+        return Inertia::render('View/ViewMonitor', [
+            'viewMonitor' => $monitorData,
+            'assetLogs' => $histories,
+            'pageTitle' => 'View Monitor',
+            'filters' => $request->only(['search', 'perPage', 'sort', 'direction']),
             'returnUrl' => session('monitor_index_url', route('monitor.index')),
         ]);
     }

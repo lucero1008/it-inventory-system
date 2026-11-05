@@ -158,15 +158,19 @@
 }
 
 .view-specs {
-    @apply text-sm mt-1 text-gray-700 dark:text-slate-400/80 transition-colors duration-300;
+    @apply text-xs md:text-sm mt-1 text-gray-700 dark:text-slate-400/80 transition-colors duration-300;
 }
 
 .view-specs span {
     @apply font-semibold;
 }
 
+.view-others {
+    @apply bg-slate-50 md:bg-transparent dark:bg-slate-800/60 md:dark:bg-transparent px-5 py-3 md:px-0 md:py-0 rounded-base transition-colors duration-300;
+}
+
 .view-other-details {
-    @apply text-sm mt-1 text-gray-700 dark:text-slate-400/80 transition-colors duration-300;
+    @apply text-xs md:text-sm mt-1 text-gray-700 dark:text-slate-400/80 transition-colors duration-300;
 }
 
 .view-other-details span {

@@ -45,10 +45,15 @@ class MonitorObserver
                 case 'status':
                     $historyEntries[] = "Changed status from {$monitor->getOriginal('status')} to {$dirtyFields['status']}";
                     break;
+                case 'remarks':
+                    $newRemark = $dirtyFields['remarks'] ? $dirtyFields['remarks'] : "empty";
+                    $historyEntries[] = "Updated remark to {$newRemark}";
+                    break;
                 default:
                     $oldDetails = $monitor->getOriginal($field) ? $monitor->getOriginal($field) : "N/A";
                     $newDetails = $dirtyFields[$field] ? $dirtyFields[$field] : "N/A";
-                    $historyEntries[] = "Updated {$field} from {$oldDetails} to {$newDetails}";
+                    $label = str_replace('_', ' ', $field);
+                    $historyEntries[] = "Updated {$label} from {$oldDetails} to {$newDetails}";
                     break;
                 }
         } else {
@@ -64,6 +69,7 @@ class MonitorObserver
                             if ($field === 'asset_tag') { $label = 'Tag'; }
                             if ($field === 'serial_number') { $label = 'SN'; }
                             if ($field === 'current_user') { $label = 'User'; }
+                            if ($field === 'remarks') { $label = 'Remark'; }
                             if ($field === 'date_of_asset_transfer') { $label = 'Date Transfer'; }
 
                             $updatedAllValues[] = "{$label}: {$val}";

@@ -32,7 +32,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/monitor', [MonitorListController::class, 'showMonitor'])->name('monitor.index');
     Route::get('/monitor/action', [MonitorListController::class, 'action'])->name('monitor.add');
     Route::get('/monitor/action/{id}', [MonitorListController::class, 'action'])->name('monitor.edit');
-    Route::get('/monitor/view/{id}', [MonitorListController::class, 'action'])->name('monitor.view');
+    Route::get('/monitor/view/{id}', [MonitorListController::class, 'view'])->name('monitor.view');
     Route::post('/monitor/store', [MonitorListController::class, 'store'])->name('monitor.store');
     Route::put('/monitor/update/{monitor}', [MonitorListController::class, 'update'])->name('monitor.update');
     Route::delete('/monitor/delete/{id}', [MonitorListController::class, 'destroy'])->name('monitor.delete');
@@ -42,7 +42,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/printer', [PrinterListController::class, 'showPrinter'])->name('printer.index');
     Route::get('/printer/action', [PrinterListController::class, 'action'])->name('printer.add');
     Route::get('/printer/action/{id}', [PrinterListController::class, 'action'])->name('printer.edit');
-    Route::get('/printer/view/{id}', [PrinterListController::class, 'action'])->name('printer.view');
+    Route::get('/printer/view/{id}', [PrinterListController::class, 'view'])->name('printer.view');
     Route::post('/printer/store', [PrinterListController::class, 'store'])->name('printer.store');
     Route::put('/printer/update/{printer}', [PrinterListController::class, 'update'])->name('printer.update');
     Route::delete('/printer/delete/{id}', [PrinterListController::class, 'destroy'])->name('printer.delete');

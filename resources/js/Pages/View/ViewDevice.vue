@@ -1,12 +1,13 @@
 <script setup>
 import dayjs from 'dayjs';
-import { XMarkIcon, ComputerDesktopIcon, BookmarkIcon } from '@heroicons/vue/24/solid'
+import { XMarkIcon, ComputerDesktopIcon } from '@heroicons/vue/24/solid'
 import { router, Link } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import debounce from 'lodash/debounce';
 
 import Navbar from '../Components/Navbar.vue';
 import CustomTable from '../Components/CustomTable.vue';
+import Badge from '../Components/Badge.vue';
 
 const props = defineProps({
     viewDevice: {
@@ -25,7 +26,7 @@ const props = defineProps({
 });
 
 const tableHeaders = [
-  { label: 'ID', key: 'id', enabaleSort: true },
+  { label: 'ID', key: 'id', enabaleSort: false },
   { label: 'Description', key: 'details', enabaleSort: false },
   { label: 'Update By', key: 'user_id', enabaleSort: true },
   { label: 'Date', key: 'created_at', enabaleSort: true },
@@ -122,7 +123,7 @@ const getStatusClass = (status) => {
                                 </p>
                             </div>
 
-                            <div>
+                            <div class="view-others">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-6 w-full">
                                     <ul class="space-y-1.5">
                                         <li class="view-other-details">
@@ -132,7 +133,7 @@ const getStatusClass = (status) => {
                                             <span>Serial Number:</span> {{ viewDevice.serial_number }}
                                         </li>
                                         <li class="view-other-details">
-                                            <span>Type of Device:</span> {{ viewDevice.type }}
+                                            <span>Type of Device:</span> {{ viewDevice.device_type }}
                                         </li>
                                     </ul>
 
@@ -140,15 +141,13 @@ const getStatusClass = (status) => {
                                     <ul class="space-y-1.5">
                                         <li class="view-other-details flex items-center gap-2">
                                             <span>Status:</span>
-                                            <span :class="getStatusClass(viewDevice.status)">
-                                                {{ viewDevice.status }}
-                                            </span>
+                                            <Badge :status="viewDevice.status"/>
                                         </li>
                                         <li class="view-other-details">
-                                            <span>Current User:</span> {{ viewDevice.current_user }} | {{ viewDevice.department }}
+                                            <span>Current User:</span> {{ viewDevice.current_user }} - {{ viewDevice.department }}
                                         </li>
                                         <li class="view-other-details">
-                                            <span>Date Transfer:</span> {{ dayjs(viewDevice.date_of_asset_transfer).format('MMMM DD, YYYY h:mm A') }}
+                                            <span>Date Transfer:</span> {{ dayjs(viewDevice.date_of_asset_transfer).format('MMMM DD, YYYY') }}
                                         </li>
                                     </ul>
                                 </div>
@@ -179,8 +178,12 @@ const getStatusClass = (status) => {
                             @sort="handleSort"
                         >
 
+                        <template #id="{ item }">
+                            {{ (assetLogs.from || 1) + assetLogs.data.indexOf(item) }}
+                        </template>
+
                         <template #details="{ item }">
-                            <span class="w-full whitespace-normal break-all">{{ item.details }}</span>
+                            <span class="w-full md:whitespace-normal md:break-all ml-11 sm:ml-8 md:ml-0">{{ item.details }}</span>
                         </template>
 
                         <template #user_id="{ item }">

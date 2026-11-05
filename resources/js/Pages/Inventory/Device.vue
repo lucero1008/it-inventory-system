@@ -8,6 +8,7 @@ import Navbar from '../Components/Navbar.vue';
 import CustomTable from '../Components/CustomTable.vue';
 import FlashAlert from '../Components/FlashAlert.vue';
 import ConfirmationModal from '../Components/ConfirmationModal.vue';
+import Badge from '../Components/Badge.vue';
 
 const addNewDevice = () => {
     router.visit('/device/action');
@@ -69,28 +70,6 @@ const handleSort = (column) => {
 };
 
 watch([search, select, perPage], debounce(fetchData, 300));
-
-const getStatusClass = (status) => {
-    const currentStatus = status?.toLowerCase();
-    switch (currentStatus) {
-        case 'available':
-            return 'badge-success';
-        case 'deployed':
-        case 'in use':
-            return 'badge-info';
-        case 'for repair':
-            return 'badge-warning';
-        case 'for disposal':
-        case 'disposed':
-            return 'badge-danger';
-        case 'for testing':
-            return 'badge-grey';
-        case 'undefined':
-            return 'badge-alternative';
-        default:
-            return 'badge-default';
-    }
-};
 
 const isModalOpen = ref(false);
 const modalConfig = ref({
@@ -161,9 +140,7 @@ const statusOptions = [
                         </template>
 
                         <template #status="{ item }">
-                            <span :class="getStatusClass(item.status)">
-                                {{ item.status }}
-                            </span>
+                            <Badge :status="item.status" />
                         </template>
 
                         <template #actions="{ item }">

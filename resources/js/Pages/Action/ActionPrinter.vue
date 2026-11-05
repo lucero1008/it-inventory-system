@@ -18,10 +18,6 @@ const props = defineProps({
     returnUrl: {
         type: String,
         default: '/printer'
-    },
-    isView: {
-        type: Boolean,
-        default: false
     }
 });
 
@@ -165,7 +161,7 @@ const statusOptions = [
                     <div class="flex justify-between items-center">
                         <div>
                             <h1 class="main-card-title">
-                                {{ isView ? 'View Printer Details' : (form.id ? 'Edit Printer' : 'Add New Printer') }}
+                                {{ form.id ? 'Edit Printer' : 'Add New Printer' }}
                             </h1>
                             <p class="main-card-description">Track, Printer, and manage all supplier or company-issued printer assets here.</p>
                         </div>
@@ -183,7 +179,6 @@ const statusOptions = [
                                 placeholder="Enter asset tag"
                                 v-model="form.asset_tag"
                                 :error="form.errors.asset_tag"
-                                :disabled="isView"
                             />
 
                             <FormSelect
@@ -194,7 +189,6 @@ const statusOptions = [
                                 :options="brandOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.brand"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -203,7 +197,6 @@ const statusOptions = [
                                 placeholder="Enter model"
                                 v-model="form.model"
                                 :error="form.errors.model"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -212,7 +205,6 @@ const statusOptions = [
                                 placeholder="Enter serial number"
                                 v-model="form.serial_number"
                                 :error="form.errors.serial_number"
-                                :disabled="isView"
                             />
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:col-span-1 gap-1 sm:gap-3">
                                 <FormSelect
@@ -223,7 +215,6 @@ const statusOptions = [
                                     :options="typeOption"
                                     :hidePlaceHolder=false
                                     :error="form.errors.printer_type"
-                                    :disabled="isView"
                                     class="mb-3 sm:mb-0"
                                 />
 
@@ -235,7 +226,6 @@ const statusOptions = [
                                     :options="ownershipOption"
                                     :hidePlaceHolder=false
                                     :error="form.errors.ownership"
-                                    :disabled="isView"
                                 />
                             </div>
 
@@ -245,7 +235,6 @@ const statusOptions = [
                                 placeholder="Enter supplier"
                                 v-model="form.supplier"
                                 :error="form.errors.supplier"
-                                :disabled="isView"
                             />
 
                             <div class="grid grid-cols-1 md:grid-cols-2 md:col-span-2 lg:col-span-1 gap-1 sm:gap-3">
@@ -255,7 +244,6 @@ const statusOptions = [
                                     placeholder="Enter current user"
                                     v-model="form.current_user"
                                     :error="form.errors.current_user"
-                                    :disabled="isView"
                                 />
 
                                 <FormInput
@@ -264,7 +252,6 @@ const statusOptions = [
                                     placeholder="Enter department"
                                     v-model="form.department"
                                     :error="form.errors.department"
-                                    :disabled="isView"
                                 />
                             </div>
 
@@ -276,7 +263,6 @@ const statusOptions = [
                                 :options="statusOptions"
                                 :hidePlaceHolder=false
                                 :error="form.errors.status"
-                                :disabled="isView"
                             />
 
                             <FormInput
@@ -285,7 +271,6 @@ const statusOptions = [
                                 type="date"
                                 v-model="form.date_of_asset_transfer"
                                 :error="form.errors.date_of_asset_transfer"
-                                :disabled="isView"
                             />
 
                             <!-- <div class="hidden lg:block lg:col-span-2"></div> -->
@@ -297,7 +282,7 @@ const statusOptions = [
                             placeholder="Add remark here..."
                             v-model="form.remarks"
                             :error="form.errors.remarks"
-                            :disabled="isView"
+
                             class="mt-4"
                         />
 
@@ -308,13 +293,12 @@ const statusOptions = [
 
                         <div class="mt-4 mb-4 grid grid-cols-1 gap-3 md:flex md:justify-end md:col-span-2 md:justify-self-end">
                             <button
-                                v-if="!isView"
                                 @click="handleSaveClick"
                                 type="button"
                                 class="btn-info w-auto md:w-40 ">
                                 {{ form.id ? 'Update' : 'Save' }}
                             </button>
-                            <button v-if="!isView" type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
+                            <button type="button" @click="resetForm" class="w-auto md:w-40 btn-secondary">Reset</button>
                             <Link :href="returnUrl" class="w-full btn-dark block sm:hidden">
                                 Close
                             </Link>

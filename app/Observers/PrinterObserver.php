@@ -46,10 +46,15 @@ class PrinterObserver
                 case 'status':
                     $historyEntries[] = "Changed status from {$printer->getOriginal('status')} to {$dirtyFields['status']}";
                     break;
+                case 'remarks':
+                    $newRemark = $dirtyFields['remarks'] ? $dirtyFields['remarks'] : "empty";
+                    $historyEntries[] = "Updated remark to {$newRemark}";
+                    break;
                 default:
                     $oldDetails = $printer->getOriginal($field) ? $printer->getOriginal($field) : "N/A";
                     $newDetails = $dirtyFields[$field] ? $dirtyFields[$field] : "N/A";
-                    $historyEntries[] = "Updated {$field} from {$oldDetails} to {$newDetails}";
+                    $label = str_replace('_', ' ', $field);
+                    $historyEntries[] = "Updated {$label} from {$oldDetails} to {$newDetails}";
                     break;
                 }
         } else {
@@ -66,6 +71,7 @@ class PrinterObserver
                             if ($field === 'printer_type') { $label = 'Type'; }
                             if ($field === 'serial_number') { $label = 'SN'; }
                             if ($field === 'current_user') { $label = 'User'; }
+                            if ($field === 'remarks') { $label = 'Remark'; }
                             if ($field === 'date_of_asset_transfer') { $label = 'Date Transfer'; }
 
                             $updatedAllValues[] = "{$label}: {$val}";
