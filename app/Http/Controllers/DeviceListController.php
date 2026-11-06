@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Assets;
 use App\Actions\CreateAssetAction;
 use App\Actions\UpdateAssetAction;
-use App\Models\Assets;
-use Inertia\Inertia;
-use App\Models\Device;
-use App\Observers\AssetTagObserver;
+use App\Observers\AssetsObserver;
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +52,7 @@ class DeviceListController extends Controller
         ]);
     }
 
-    public function action(AssetTagObserver $asset_tag, $id = null) {
+    public function action(AssetsObserver $asset_tag, $id = null) {
 
         $assetTag = $asset_tag->generate();
 
@@ -121,7 +121,7 @@ class DeviceListController extends Controller
             'current_user' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'string', Rule::in(Device::statuses())],
+            'status' => ['required', 'string', Rule::in(Assets::statuses())],
             'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
 
             // Specific Detail fields
@@ -156,7 +156,7 @@ class DeviceListController extends Controller
             'current_user' => ['nullable', 'string', 'max:255'],
             'department' => ['nullable', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'string', Rule::in(Device::statuses())],
+            'status' => ['required', 'string', Rule::in(Assets::statuses())],
             'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
 
             // Specific Detail fields
@@ -170,8 +170,8 @@ class DeviceListController extends Controller
 
         $hasChanges = $updateAssetAction->execute($assets, $validated);
 
-        $msgType = $hasChanges ? 'success' : 'warning';
-        $msgContent = $hasChanges ? 'Device details updated successfully.' : 'No changes were made to the device details.';
+        $msgType = $hasChanges->has_changes ? 'success' : 'warning';
+        $msgContent = $hasChanges->has_changes ? 'Device details updated successfully.' : 'No changes were made to the device details.';
 
         return redirect($redirectUrl)->with($msgType, $msgContent);
     }

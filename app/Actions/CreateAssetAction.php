@@ -23,7 +23,7 @@ class CreateAssetAction
             ]);
 
             match ($data['asset_type']) {
-                'Desktop', 'Laptop' => $asset->desktopLaptopDetails()->create([
+                'Desktop', 'Laptop' => $asset->desktoplaptopDetails()->create([
                     'processor' => $data['processor'] ?? null,
                     'ram'       => $data['ram'] ?? null,
                     'storage'   => $data['storage'] ?? null,

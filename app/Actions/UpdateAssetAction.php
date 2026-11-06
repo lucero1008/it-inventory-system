@@ -25,7 +25,7 @@ class UpdateAssetAction
             $mainChanged = $asset->wasChanged();
 
             $details = match ($data['asset_type']) {
-                'Desktop', 'Laptop' => $asset->desktopLaptopDetails()->updateOrCreate(
+                'Desktop', 'Laptop' => $asset->desktoplaptopDetails()->updateOrCreate(
                     ['asset_id' => $asset->id],
                     [
                         'processor' => $data['processor'] ?? null,
