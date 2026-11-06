@@ -97,10 +97,9 @@ watch([search, perPage], debounce(fetchData, 300));
                             <div>
                                 <h3 class="view-brand-model">{{ viewDevice.brand }} {{ viewDevice.model }}</h3>
                                 <p class="view-specs">
-                                    <span>Processor:</span> {{ viewDevice.processor }}, <span>Memory:</span> {{ viewDevice.ram }}, <span>Storage:</span> {{ viewDevice.storage }}
+                                    <span>Processor:</span> {{ viewDevice.desktop_laptop_details.processor }}, <span>Memory:</span> {{ viewDevice.desktop_laptop_details.ram }}, <span>Storage:</span> {{ viewDevice.desktop_laptop_details.storage }}
                                 </p>
                             </div>
-
                             <div class="view-others">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-6 w-full">
                                     <ul class="space-y-1.5">
@@ -111,7 +110,7 @@ watch([search, perPage], debounce(fetchData, 300));
                                             <span>Serial Number:</span> {{ viewDevice.serial_number }}
                                         </li>
                                         <li class="view-other-details">
-                                            <span>Type of Device:</span> {{ viewDevice.device_type }}
+                                            <span>Type of Asset:</span> {{ viewDevice.asset_type }}
                                         </li>
                                     </ul>
 

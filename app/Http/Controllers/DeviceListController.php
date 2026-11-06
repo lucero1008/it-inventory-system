@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateAssetAction;
+use App\Actions\UpdateAssetAction;
+use App\Models\Assets;
 use Inertia\Inertia;
 use App\Models\Device;
+use App\Observers\AssetTagObserver;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +30,7 @@ class DeviceListController extends Controller
                 : 'id';
         $direction = $request->input('direction', 'desc');
 
-        $data = Device::when($search, function ($query, $search) {
+        $data = Assets::when($search, function ($query, $search) {
             $query->where('asset_tag', 'like', "%{$search}%")
                   ->orWhere('brand', 'like', "%{$search}%")
                   ->orWhere('model', 'like', "%{$search}%")
@@ -36,6 +40,7 @@ class DeviceListController extends Controller
         ->when($select, function ($query, $select) {
             $query->where('status', $select);
         })
+        ->with('desktopLaptopDetails')
         ->orderBy($sort, $direction)
         ->paginate($perPage)
         ->withQueryString();
@@ -47,11 +52,15 @@ class DeviceListController extends Controller
         ]);
     }
 
-    public function action($id = null) {
-        $deviceData = $id ? Device::find($id) : null;
+    public function action(AssetTagObserver $asset_tag, $id = null) {
+
+        $assetTag = $asset_tag->generate();
+
+        $deviceData = $id ? Assets::with('desktopLaptopDetails')->find($id) : null;
 
         return Inertia::render('Action/ActionDevice', [
             'selectedDevice' => $deviceData,
+            'assetTag' => $assetTag,
             'pageTitle' => $id ? 'Edit Device' : 'Add Device',
             'returnUrl' => session('device_index_url', route('device.index')),
         ]);
@@ -59,7 +68,7 @@ class DeviceListController extends Controller
 
     public function view(Request $request, $id) {
 
-        $deviceData = Device::findOrFail($id);
+        $deviceData = Assets::with('desktopLaptopDetails')->findOrFail($id);
 
         $search = $request->input('search');
         $perPage = $request->input('perPage', 10);
@@ -93,7 +102,8 @@ class DeviceListController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    // Create
+    public function store(Request $request, CreateAssetAction $createAssetAction) {
 
         $redirectUrl = session('device_index_url', route('device.index'));
         $currentUser = $request->input('current_user');
@@ -103,31 +113,33 @@ class DeviceListController extends Controller
         }
 
         $validated = $request->validate([
-            'asset_tag' => ['required', 'string', 'max:255', 'unique:desktop_laptop,asset_tag'],
-            'device_type' => ['required', 'string'],
+            'asset_tag' => ['required', 'string', 'max:255', 'unique:assets,asset_tag'],
+            'asset_type' => ['required', 'string'],
             'brand' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],
-            'serial_number' => ['required', 'string', 'max:255', 'unique:desktop_laptop,serial_number'],
+            'serial_number' => ['required', 'string', 'max:255', 'unique:assets,serial_number'],
+            'current_user' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'remark' => ['nullable', 'string', 'max:1000'],
+            'status' => ['required', 'string', Rule::in(Device::statuses())],
+            'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
+
+            // Specific Detail fields
             'processor' => ['required', 'string', 'max:255'],
             'ram' => ['required', 'string'],
             'storage' => ['required', 'string'],
-            'current_user' => ['nullable', 'string', 'max:255'],
-            'department' => ['nullable', 'string', 'max:255'],
-            'remarks' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'string', Rule::in(Device::statuses())],
-            'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
         ]);
 
         $validated['current_user'] = $request->filled('current_user') ? $request->current_user : 'IT';
         $validated['department'] = $request->filled('department') ? $request->department : 'IT';
 
-        Device::create($validated);
+        $createAssetAction->execute($validated);
 
         return redirect($redirectUrl)->with('success', 'Device successfully added.');
     }
 
-    public function update(Request $request, Device $device) {
-
+    // Update
+    public function update(Request $request, Assets $assets, UpdateAssetAction $updateAssetAction) {
         $redirectUrl = session('device_index_url', route('device.index'));
         $currentUser = $request->input('current_user');
 
@@ -136,27 +148,27 @@ class DeviceListController extends Controller
         }
 
         $validated = $request->validate([
-            'asset_tag' => ['required', 'string', 'max:255', 'unique:desktop_laptop,asset_tag,' . $device->id],
-            'device_type' => ['required', 'string'],
+            'asset_tag' => ['required', 'string', 'max:255', 'unique:assets,asset_tag,' . $assets->id],
+            'asset_type' => ['required', 'string'],
             'brand' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],
-            'serial_number' => ['required', 'string', 'max:255', 'unique:desktop_laptop,serial_number,' . $device->id],
+            'serial_number' => ['required', 'string', 'max:255', 'unique:assets,serial_number,' . $assets->id],
+            'current_user' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'remark' => ['nullable', 'string', 'max:1000'],
+            'status' => ['required', 'string', Rule::in(Device::statuses())],
+            'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
+
+            // Specific Detail fields
             'processor' => ['required', 'string', 'max:255'],
             'ram' => ['required', 'string'],
             'storage' => ['required', 'string'],
-            'current_user' => ['nullable', 'string', 'max:255'],
-            'department' => ['nullable', 'string', 'max:255'],
-            'remarks' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'string', Rule::in(Device::statuses())],
-            'date_of_asset_transfer' => ['nullable', 'string', 'max:255'],
         ]);
 
         $validated['current_user'] = $request->filled('current_user') ? $request->current_user : 'IT';
         $validated['department'] = $request->filled('department') ? $request->department : 'IT';
 
-        $device->update($validated);
-
-        $hasChanges = $device->wasChanged(['asset_tag', 'device_type', 'brand', 'model', 'serial_number', 'processor', 'ram', 'storage', 'current_user', 'department', 'remarks', 'status', 'date_of_asset_transfer']);
+        $hasChanges = $updateAssetAction->execute($assets, $validated);
 
         $msgType = $hasChanges ? 'success' : 'warning';
         $msgContent = $hasChanges ? 'Device details updated successfully.' : 'No changes were made to the device details.';
@@ -164,10 +176,11 @@ class DeviceListController extends Controller
         return redirect($redirectUrl)->with($msgType, $msgContent);
     }
 
+    // Delete
     public function destroy($id) {
         $redirectUrl = session('device_index_url', route('device.index'));
 
-        $device = Device::findOrFail($id);
+        $device = Assets::findOrFail($id);
         $device->delete();
         return redirect($redirectUrl)->with('success', 'Device deleted successfully.');
     }

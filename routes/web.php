@@ -25,7 +25,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/device/action/{id}', [DeviceListController::class, 'action'])->name('device.edit');
     Route::get('/device/view/{id}', [DeviceListController::class, 'view'])->name('device.view');
     Route::post('/device/store', [DeviceListController::class, 'store'])->name('device.store');
-    Route::put('/device/update/{device}', [DeviceListController::class, 'update'])->name('device.update');
+    Route::put('/device/update/{assets}', [DeviceListController::class, 'update'])->name('device.update');
     Route::delete('/device/delete/{id}', [DeviceListController::class, 'destroy'])->name('device.delete');
     // Device Routing End
 

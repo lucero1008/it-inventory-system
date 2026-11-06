@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('peripherals', function (Blueprint $table) {
+        Schema::create('monitor_details', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
-            $table->string('quantity');
-            $table->enum('status', ['Available', 'In Use', 'Defective', 'For Disposal', 'Disposed', 'For Testing', 'Undefined'])->default('Available');
-            $table->longText('remarks')->nullable();
+
+            $table->foreignId('asset_id')->unique()->constrained('assets')->cascadeOnDelete();
+
+            $table->string('resolution')->nullable();
+            $table->string('refresh_rate')->nullable(); // e.g., 60hz
+            $table->string('screen_size')->nullable(); // eg., 24 inches
+
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('peripherals');
+        Schema::dropIfExists('monitor_details');
     }
 };

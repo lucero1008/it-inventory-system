@@ -15,6 +15,10 @@ const props = defineProps({
         type: Object,
         default: null
     },
+    assetTag: {
+        type: String,
+        default: null
+    },
     returnUrl: {
         type: String,
         default: '/device'
@@ -23,18 +27,18 @@ const props = defineProps({
 
 const form = useForm({
   id: props.selectedDevice ? props.selectedDevice.id : null,
-  asset_tag: props.selectedDevice ? props.selectedDevice.asset_tag : null,
-  device_type: props.selectedDevice ? props.selectedDevice.device_type : 'Desktop',
+  asset_tag: props.selectedDevice ? props.selectedDevice.asset_tag : props.assetTag,
+  asset_type: props.selectedDevice ? props.selectedDevice.asset_type : 'Desktop',
   brand: props.selectedDevice ? props.selectedDevice.brand : '',
   model: props.selectedDevice ? props.selectedDevice.model : null,
   serial_number: props.selectedDevice ? props.selectedDevice.serial_number : null,
-  processor: props.selectedDevice ? props.selectedDevice.processor : null,
-  ram: props.selectedDevice ? props.selectedDevice.ram : '',
-  storage: props.selectedDevice ? props.selectedDevice.storage : '',
+  processor: props.selectedDevice ? props.selectedDevice.desktop_laptop_details.processor : null,
+  ram: props.selectedDevice ? props.selectedDevice.desktop_laptop_details.ram : '',
+  storage: props.selectedDevice ? props.selectedDevice.desktop_laptop_details.storage : '',
   status: props.selectedDevice ? props.selectedDevice.status : 'Available',
   current_user: props.selectedDevice ? props.selectedDevice.current_user : '',
   department: props.selectedDevice ? props.selectedDevice.department : '',
-  remarks: props.selectedDevice ? props.selectedDevice.remarks : null,
+  remark: props.selectedDevice ? props.selectedDevice.remark : null,
   date_of_asset_transfer: props.selectedDevice ? props.selectedDevice.date_of_asset_transfer : new Date().toISOString().split('T')[0],
   created_at: props.selectedDevice ? props.selectedDevice.created_at : '',
   updated_at: props.selectedDevice ? props.selectedDevice.updated_at : 'N/A',
@@ -42,18 +46,18 @@ const form = useForm({
 
 const resetForm = () => {
   form.id = props.selectedDevice ? props.selectedDevice.id : null;
-  form.asset_tag = props.selectedDevice ? props.selectedDevice.asset_tag : null;
-  form.device_type = props.selectedDevice ? props.selectedDevice.device_type : 'Desktop';
+  form.asset_tag = props.selectedDevice ? props.selectedDevice.asset_tag : props.assetTag;
+  form.asset_type = props.selectedDevice ? props.selectedDevice.asset_type : 'Desktop';
   form.brand = props.selectedDevice ? props.selectedDevice.brand : '';
   form.model = props.selectedDevice ? props.selectedDevice.model : null;
   form.serial_number = props.selectedDevice ? props.selectedDevice.serial_number : null;
-  form.processor = props.selectedDevice ? props.selectedDevice.processor : null;
-  form.ram = props.selectedDevice ? props.selectedDevice.ram : '';
-  form.storage = props.selectedDevice ? props.selectedDevice.storage : '';
+  form.processor = props.selectedDevice ? props.selectedDevice.desktop_laptop_details.processor : null;
+  form.ram = props.selectedDevice ? props.selectedDevice.desktop_laptop_details.ram : '';
+  form.storage = props.selectedDevice ? props.selectedDevice.desktop_laptop_details.storage : '';
   form.status = props.selectedDevice ? props.selectedDevice.status : 'Available';
   form.current_user = props.selectedDevice ? props.selectedDevice.current_user : '';
   form.department = props.selectedDevice ? props.selectedDevice.department : '';
-  form.remarks = props.selectedDevice ? props.selectedDevice.remarks : null;
+  form.remark = props.selectedDevice ? props.selectedDevice.remark : null;
   form.date_of_asset_transfer = props.selectedDevice ? props.selectedDevice.date_of_asset_transfer : new Date().toISOString().split('T')[0];
   form.created_at = props.selectedDevice ? props.selectedDevice.created_at : '';
   form.updated_at = props.selectedDevice ? props.selectedDevice.updated_at : 'N/A';
@@ -205,7 +209,6 @@ const typeOptions = [
                             <span class="sr-only">Close modal</span>
                         </Link>
                     </div>
-
                     <form class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <FormInput
@@ -214,16 +217,17 @@ const typeOptions = [
                                 placeholder="Enter asset tag"
                                 v-model="form.asset_tag"
                                 :error="form.errors.asset_tag"
+                                :disabled=true
                             />
 
                             <FormSelect
-                                label="Device Type"
-                                id="device_type"
-                                v-model="form.device_type"
-                                placeholder="Choose Device Type..."
+                                label="Asset Type"
+                                id="asset_type"
+                                v-model="form.asset_type"
+                                placeholder="Choose Asset Type..."
                                 :options="typeOptions"
                                 :hidePlaceHolder=false
-                                :error="form.errors.device_type"
+                                :error="form.errors.asset_type"
                             />
 
                             <FormSelect
@@ -317,11 +321,11 @@ const typeOptions = [
 
                         <FormTextArea
                             label="Remark"
-                            id="remarks"
+                            id="remark"
                             rows="6"
                             placeholder="Add remark here..."
-                            v-model="form.remarks"
-                            :error="form.errors.remarks"
+                            v-model="form.remark"
+                            :error="form.errors.remark"
                             class="mt-4"
                         />
 
